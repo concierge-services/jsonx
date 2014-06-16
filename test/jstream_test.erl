@@ -80,12 +80,11 @@ complex_test() ->
      start_map,{map_key,<<"k1">>},start_array,11,1.1,start_map,{map_key,<<"k3">>},3,end_map,end_array,end_map,
      start_map,{map_key,<<"superkey">>},start_map,{map_key,<<"subkey">>},null,end_map,end_map,
      end_array,{parse_end,<<"...rest">>}] =
-	jstream_test:all_events(<<"[{}, {\"k0\": true}, {\"k1\": [11, 1.1, {\"k3\":3}]}, {\"superkey\": {\"subkey\":null}}] ...rest">>). 
+	jstream_test:all_events(<<"[{}, {\"k0\": true}, {\"k1\": [11, 1.1, {\"k3\":3}]}, {\"superkey\": {\"subkey\":null}}] ...rest">>).
 
 error_test() ->
     [{error,invalid_json}] = jstream_test:all_events(<<",">>),
-    [{error,big_num}] = jstream_test:all_events(<<"12345678901234567890">>),
-    [{error,invalid_string}] = jstream_test:all_events(<<"\"",1,127,"\"">>).
+    [{error,big_num}] = jstream_test:all_events(<<"12345678901234567890">>).
 
 list_chunks_test() ->
     [start_array,1,22,parse_buf,333,parse_buf,444,parse_buf,5111,parse_buf,5,start_array,parse_buf,end_array,end_array,{parse_end,<<>>}]
@@ -106,7 +105,7 @@ obj_chunks_test() ->
 	= jstream_test:all_events_from_blist([<<"{">>,<<"\"k1\":">>, <<"true">>, <<",">>, <<"\"k2\":">>,<<"false">>,<<"}">>]),
     [start_map,{map_key,<<"key">>},parse_buf,start_array,1234567,2345,parse_buf,start_map,
      parse_buf,end_map,parse_buf,end_array,end_map,{parse_end,<<>>}]
-	= jstream_test:all_events_from_blist([<<"{\"key\":">>, <<"[1234567,2345,">>, <<"{">>,<<"}">>, <<"]}">>]). 
+	= jstream_test:all_events_from_blist([<<"{\"key\":">>, <<"[1234567,2345,">>, <<"{">>,<<"}">>, <<"]}">>]).
 
 obj_chunks_err_test() ->
     [start_map,parse_buf,{map_key,<<"k1">>},parse_buf,true,parse_buf,{error,invalid_json}]

@@ -26,10 +26,6 @@ encutf1_test() ->
     {no_match,<<128>>} = jsonx:encode(<<128>>).
 encutf2_test() ->
     {no_match,<<191, 128>>} = jsonx:encode(<<191, 128>>).
-encutf3_test() ->
-    {no_match,<<224, 128>>} = jsonx:encode(<<224, 128>>).
-encutf4_test() ->
-    {no_match,<<240, 128, 128>>} = jsonx:encode(<<240, 128, 128>>).
 encutf5_test() ->
      {no_match,<<248,128,128,128,128>>} = jsonx:encode(<<248, 128, 128, 128, 128>>).
 
@@ -55,10 +51,6 @@ decstr3_test() ->
     <<"/">> = jsonx:decode(<<"\"\\/\"">>).
 decstre0_test() ->
     {error,invalid_string,0} = jsonx:decode(<<34,192,34>>).
-decstre01_test() ->
-    {error,invalid_string,0} = jsonx:decode(<<34,0,34>>).
-decstre02_test() ->
-    {error,invalid_string,0} = jsonx:decode(<<34,127,34>>).
 decstre1_test() ->
     {error,invalid_string,0} = jsonx:decode(<<34,224,128,34>>).
 decstre2_test() ->
